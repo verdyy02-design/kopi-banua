@@ -211,17 +211,30 @@ section {
   color: var(--teks-tombol);
 }
 
+/* Memusatkan ikon tombol header */
 .tombol-ikon {
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--garis);
-  border-radius: 10px;
-  background: var(--latar);
-  color: var(--teks);
-  font-size: 1.25rem;
-  cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--garis);
+    border-radius: 10px;
+    background: var(--latar);
+    color: var(--teks);
+    font-size: 1.25rem;
+    cursor: pointer;
 }
 
+/* Memusatkan ikon bulan dan hamburger */
+.tombol-ikon > span[aria-hidden="true"] {
+    display: block;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
 
 /* ---------- 5. Header dan navigasi (Pertemuan 5, 10) ---------- */
 header {
@@ -1000,6 +1013,15 @@ footer li {
     .hero-foto {
         width: 100%;
         flex-basis: auto;
+    }
+
+    .bungkus-tabel {
+    position: relative;
+    overflow-x: auto;
+    background: var(--kartu);
+    border: 1px solid var(--garis);
+    border-radius: var(--radius);
+    box-shadow: var(--bayangan);
     }
 
     .grid-menu {
