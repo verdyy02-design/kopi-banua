@@ -1,0 +1,1127 @@
+/* =====================================================================
+   KOPI BANUA — css/style.css
+   Urutan berkas: reset, variabel, dasar, komponen, lalu media query.
+   Ditulis mobile-first (Pertemuan 6): gaya dasar untuk ponsel,
+   lalu ditambah aturan saat layar melebar.
+   ===================================================================== */
+
+
+/* ---------- 1. Reset dasar (Pertemuan 4) ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Pertemuan 6: seluruh gambar aman, tidak pernah meluber */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ---------- 2. Variabel merek (Pertemuan 4) ---------- */
+:root {
+  --utama: #6F4E37;
+  /* cokelat kopi */
+  --aksen: #A55704;
+  /* terakota */
+  --aksen-gelap: #9E3F22;
+  --teks: #2B2522;
+  --teks-lembut: #A55704;
+  --teks-tombol: #FFFFFF;
+  --latar: #FEFAF3;
+  --latar-alt: #F2ECE5;
+  --kartu: #F8EADC;
+  --garis: #A55704;
+  --garis-isian: #A55704;
+  --kepala-tabel: #6F4E37;
+  --latar-kaki: #3A2A20;
+  --teks-kaki: #F3EBE4;
+  --galat-latar: #FDECEA;
+  --galat-teks: #8A1F11;
+  --sukses-latar: #E5F3EC;
+  --sukses-teks: #1A5A41;
+  --radius: 12px;
+  --jarak: 1.25rem;
+  --bayangan: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --lebar-isi: 1100px;
+}
+
+/* Pertemuan 10: mode gelap cukup menimpa variabel.
+   JavaScript hanya menyalakan dan mematikan class "gelap" pada body. */
+body.gelap {
+  --utama: #E3B48C;
+  --aksen: #E9875F;
+  --aksen-gelap: #F0A07F;
+  --teks: #EFE9E3;
+  --teks-lembut: #B9AFA7;
+  --teks-tombol: #1B1614;
+  --latar: #1B1614;
+  --latar-alt: #241D1A;
+  --kartu: #2A2320;
+  --garis: #3D3430;
+  --garis-isian: #574B45;
+  --kepala-tabel: #4A3A31;
+  --latar-kaki: #120E0C;
+  --galat-latar: #3A1C17;
+  --galat-teks: #F6B7AA;
+  --sukses-latar: #173229;
+  --sukses-teks: #A9E0C6;
+  --bayangan: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ---------- 3. Tipografi dan dasar (Pertemuan 4) ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--teks);
+  background: var(--latar);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Poppins", Arial, sans-serif;
+  line-height: 1.25;
+  color: var(--teks);
+}
+
+/* Pertemuan 6: judul lentur dengan clamp */
+h2 {
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  margin-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+a {
+  color: var(--aksen);
+}
+
+code {
+  font-family: "Courier New", monospace;
+  font-size: 0.95em;
+  background: var(--latar-alt);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* Pertemuan 5: fokus wajib terlihat untuk pengguna tombol Tab */
+:focus-visible {
+  outline: 3px solid var(--aksen);
+  outline-offset: 2px;
+}
+
+/* Teks yang hanya dibaca pembaca layar */
+.tersembunyi {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Tautan "langsung ke isi utama" muncul saat mendapat fokus */
+.lewati {
+  position: absolute;
+  left: -999px;
+  top: 0.75rem;
+  z-index: 100;
+  background: var(--aksen);
+  color: var(--teks-tombol);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+}
+
+.lewati:focus {
+  left: 0.75rem;
+}
+
+main {
+  max-width: var(--lebar-isi);
+  margin: 0 auto;
+  padding: 0 var(--jarak);
+}
+
+section {
+  padding: 2.5rem 0;
+  scroll-margin-top: 80px;
+  /* agar judul tidak tertutup header lengket */
+}
+
+.pengantar {
+  color: var(--teks-lembut);
+  max-width: 65ch;
+  margin-bottom: 1.25rem;
+}
+
+
+/* ---------- 4. Tombol ---------- */
+.tombol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  /* sasaran sentuh nyaman (Pertemuan 6) */
+  padding: 0.7rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.tombol:active {
+  transform: scale(0.97);
+}
+
+.tombol-utama {
+  background: var(--aksen);
+  color: var(--teks-tombol);
+}
+
+.tombol-utama:hover {
+  background: var(--aksen-gelap);
+}
+
+.tombol-garis {
+  background: transparent;
+  border-color: var(--aksen);
+  color: var(--aksen);
+}
+
+.tombol-garis:hover {
+  background: var(--aksen);
+  color: var(--teks-tombol);
+}
+
+.tombol-ikon {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--garis);
+  border-radius: 10px;
+  background: var(--latar);
+  color: var(--teks);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+
+/* ---------- 5. Header dan navigasi (Pertemuan 5, 10) ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem var(--jarak);
+  background: var(--kartu);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+
+.merek {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.merek img {
+  width: 44px;
+  height: 44px;
+}
+
+header h1 {
+  font-size: 1.35rem;
+  color: var(--utama);
+}
+
+.tombol-kepala {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Ponsel: navigasi turun ke baris sendiri dan tersembunyi
+   sampai tombol hamburger menambahkan class "tampil". */
+nav {
+  width: 100%;
+}
+
+nav ul {
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  list-style: none;
+  padding-bottom: 0.5rem;
+}
+
+nav ul.tampil {
+  display: flex;
+}
+
+nav a {
+  display: block;
+  min-height: 44px;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  color: var(--teks);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  color: var(--aksen);
+  background: var(--latar-alt);
+}
+
+
+/* ---------- 6. Hero (Pertemuan 5) ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 0;
+}
+
+.hero-teks,
+.hero-gambar {
+  flex: 1 1 340px;
+}
+
+.label-kecil {
+  color: var(--aksen);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.hero h2 {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  margin-bottom: 1rem;
+}
+
+.hero-teks>p:not(.label-kecil) {
+  color: var(--teks-lembut);
+  margin-bottom: 1.5rem;
+}
+
+.hero-aksi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-gambar img {
+  border-radius: var(--radius);
+  box-shadow: var(--bayangan);
+}
+
+
+/* ---------- 7. Tentang ---------- */
+.poin-unggul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  list-style: none;
+}
+
+.poin-unggul li {
+  background: var(--kartu);
+  border-radius: var(--radius);
+  padding: var(--jarak);
+  box-shadow: var(--bayangan);
+}
+
+.poin-unggul h3 {
+  color: var(--utama);
+  margin-bottom: 0.25rem;
+}
+
+
+/* ---------- 8. Menu: alat saring dan kartu (Pertemuan 4, 5, 6, 10) ---------- */
+.alat-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter button {
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--garis);
+  border-radius: 999px;
+  background: var(--kartu);
+  color: var(--teks);
+  font: inherit;
+  cursor: pointer;
+}
+
+.filter button:hover {
+  border-color: var(--aksen);
+}
+
+.filter button.aktif {
+  background: var(--teks);
+  border-color: var(--teks);
+  color: var(--latar);
+}
+/* Atribut hidden harus selalu menang, karena banyak class di bawah
+   memberi display sendiri (flex, grid, inline-flex) yang akan
+   membatalkan display:none bawaan peramban. */
+[hidden] {
+  display: none !important;
+}
+
+/* Mode gelap: kontrol bawaan peramban (dropdown, scrollbar) ikut gelap */
+body.gelap {
+  color-scheme: dark;
+}
+
+
+/* ---------- 8b. Kontrol isian umum (dipakai pencarian dan form) ---------- */
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+select,
+textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--garis-isian);
+  border-radius: 8px;
+  background: var(--kartu);
+  color: var(--teks);
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--teks-lembut);
+  opacity: 1;
+}
+
+/* Isian yang gagal validasi (diatur oleh JavaScript, Pertemuan 11) */
+[aria-invalid="true"] {
+  border-color: var(--galat-teks);
+  border-width: 2px;
+}
+
+.alat-kanan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.alat-kanan input,
+.alat-kanan select {
+  width: auto;
+  flex: 1 1 160px;
+}
+
+
+/* ---------- 8c. Kartu menu (dibuat otomatis oleh JavaScript) ---------- */
+.grid-menu {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--jarak);
+}
+
+.kartu-menu {
+  display: flex;
+  flex-direction: column;
+  background: var(--kartu);
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  padding: var(--jarak);
+  box-shadow: var(--bayangan);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.kartu-menu:hover {
+  transform: translateY(-4px);
+}
+
+.kartu-menu img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.kartu-menu h3 {
+  margin: 0.15rem 0 0.35rem;
+}
+
+.kartu-menu p {
+  color: var(--teks-lembut);
+}
+
+.kartu-menu .kategori {
+  color: var(--aksen-gelap);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.kartu-menu .harga {
+  color: var(--utama);
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin: 0.5rem 0 1rem;
+}
+
+/* tombol selalu di dasar kartu, walau deskripsi panjangnya berbeda */
+.kartu-menu .tombol {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.menu-kosong {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--teks-lembut);
+  border: 1px dashed var(--garis-isian);
+  border-radius: var(--radius);
+}
+
+
+/* ---------- 9. Tabel: jam buka dan paket hemat (Pertemuan 2, 6) ---------- */
+.dua-tabel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--jarak);
+  align-items: start;
+}
+
+/* Pembungkus: tabel lebar bisa digeser, halaman tidak ikut melebar */
+.bungkus-tabel {
+  overflow-x: auto;
+  background: var(--kartu);
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  box-shadow: var(--bayangan);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  color: var(--utama);
+}
+
+th,
+td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--garis);
+}
+
+thead th {
+  background: var(--kepala-tabel);
+  color: var(--teks-kaki);
+  border-bottom: 0;
+}
+
+tbody tr:nth-child(even) {
+  background: var(--latar-alt);
+}
+
+tbody tr:last-child td,
+tfoot th,
+tfoot td {
+  border-bottom: 0;
+}
+
+.angka {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.catatan-tabel {
+  color: var(--teks-lembut);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+
+/* ---------- 10. Galeri (Pertemuan 3, 6) ---------- */
+.galeri {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--jarak);
+}
+
+.galeri figure {
+  background: var(--kartu);
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--bayangan);
+}
+
+.galeri img,
+.galeri video {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.galeri figcaption {
+  padding: 0.65rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--teks-lembut);
+}
+
+
+/* ---------- 11. Testimoni (tugas BT Pertemuan 2-3) ---------- */
+.grid-testimoni {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--jarak);
+}
+
+.testimoni {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--kartu);
+  border: 1px solid var(--garis);
+  border-left: 4px solid var(--aksen);
+  border-radius: var(--radius);
+  padding: var(--jarak);
+  box-shadow: var(--bayangan);
+}
+
+.testimoni blockquote {
+  font-style: italic;
+}
+
+.sumber {
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: var(--teks-lembut);
+}
+
+
+/* ---------- 12. Promo (Pertemuan 3: aside) ---------- */
+.promo {
+  margin: 1rem 0;
+  padding: var(--jarak);
+  background: var(--utama);
+  color: var(--teks-tombol);
+  border-radius: var(--radius);
+  box-shadow: var(--bayangan);
+}
+
+.promo h2 {
+  color: inherit;
+  margin-bottom: 0.25rem;
+}
+
+
+/* ---------- 13. Form pemesanan (Pertemuan 3, 11) ---------- */
+#form-pesan {
+  max-width: 640px;
+}
+
+fieldset {
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  padding: var(--jarak);
+  margin-bottom: var(--jarak);
+  background: var(--kartu);
+}
+
+legend {
+  padding: 0 0.5rem;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  color: var(--utama);
+}
+
+label,
+.label-grup {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+fieldset > :first-child + label,
+fieldset > label:first-of-type {
+  margin-top: 0.25rem;
+}
+
+.opsional {
+  font-weight: 400;
+  color: var(--teks-lembut);
+}
+
+.petunjuk {
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  color: var(--teks-lembut);
+}
+
+.pilihan-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pilihan-radio label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  margin: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.pilihan-radio input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--aksen);
+}
+
+.perkiraan {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--latar-alt);
+  border-radius: 8px;
+}
+
+.perkiraan strong {
+  color: var(--utama);
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 1.2rem;
+}
+
+.kotak-galat,
+.kotak-sukses {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-left: 4px solid currentColor;
+  border-radius: 8px;
+}
+
+.kotak-galat {
+  background: var(--galat-latar);
+  color: var(--galat-teks);
+}
+
+.kotak-galat:empty {
+  display: none;
+}
+
+.kotak-galat ul {
+  margin: 0.4rem 0 0 1.25rem;
+}
+
+.kotak-sukses {
+  background: var(--sukses-latar);
+  color: var(--sukses-teks);
+}
+
+
+/* ---------- 14. Pesanan saya (Pertemuan 11) ---------- */
+#tabel-pesanan {
+  min-width: 680px;
+}
+
+#tabel-pesanan tfoot th,
+#tabel-pesanan tfoot td {
+  background: var(--latar-alt);
+  font-weight: 700;
+}
+
+.tabel-kosong {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--teks-lembut);
+  border: 1px dashed var(--garis-isian);
+  border-radius: var(--radius);
+}
+
+#kosongkan {
+  margin-top: 1rem;
+}
+
+/* Lencana status. Nama class dibentuk JavaScript: status-<Status> */
+.status {
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--latar-alt);
+  color: var(--teks);
+}
+
+.status-Baru {
+  background: var(--latar-alt);
+  color: var(--aksen-gelap);
+}
+
+.status-Diproses {
+  background: var(--garis);
+  color: var(--teks);
+}
+
+.status-Selesai {
+  background: var(--sukses-latar);
+  color: var(--sukses-teks);
+}
+
+.status-Dibatalkan {
+  background: var(--galat-latar);
+  color: var(--galat-teks);
+}
+
+.tombol-hapus {
+  min-height: 36px;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--galat-teks);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--galat-teks);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.tombol-hapus:hover {
+  background: var(--galat-latar);
+}
+
+
+/* ---------- 15. Kontak dan peta (Pertemuan 2-3) ---------- */
+.kontak-isi {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--jarak);
+}
+
+.daftar-kontak {
+  list-style: none;
+}
+
+.daftar-kontak li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--garis);
+}
+
+.label-kontak {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--utama);
+}
+
+.peta iframe {
+  display: block;
+  width: 100%;
+  height: 320px;
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--bayangan);
+}
+
+
+/* ---------- 16. Footer (Pertemuan 3, 5) ---------- */
+footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 2.5rem var(--jarak) 5.5rem;
+  /* ruang bawah ekstra agar tombol WA mengambang tidak menutup teks */
+  padding-inline: max(var(--jarak), calc((100% - var(--lebar-isi)) / 2 + var(--jarak)));
+  background: var(--latar-kaki);
+  color: var(--teks-kaki);
+}
+
+footer h3 {
+  color: var(--teks-kaki);
+  margin-bottom: 0.5rem;
+}
+
+footer a {
+  color: var(--teks-kaki);
+}
+
+footer ul {
+  list-style: none;
+}
+
+footer li {
+  margin-bottom: 0.25rem;
+}
+
+.hak-cipta {
+  grid-column: 1 / -1;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(243, 235, 228, 0.25);
+  font-size: 0.9rem;
+}
+
+
+/* ---------- 17. Tombol WhatsApp mengambang (Pertemuan 6) ---------- */
+.wa-mengambang {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  background: #0B7A4B;
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.wa-mengambang:hover {
+  background: #095F3A;
+}
+
+
+/* =====================================================================
+   18. MEDIA QUERY — mobile-first (Pertemuan 6)
+   Gaya dasar di atas untuk ponsel; aturan di bawah menambah untuk
+   layar yang lebih lebar.
+   ===================================================================== */
+
+
+
+/* Menu hamburger */
+.tombol-kepala {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tombol-menu {
+    display: none;
+}
+
+/* Menu HP */
+@media (max-width: 767px) {
+
+    .tombol-menu {
+        display: inline-flex;
+    }
+
+    header {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .merek {
+        display: flex;
+        align-items: center;
+    }
+
+    nav {
+        display: none;
+        width: 100%;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    nav:has(ul.tampil) {
+    display: block;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-teks,
+    .hero-foto {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    .grid-menu {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        flex-direction: column;
+    }
+}
+
+
+
+@media (min-width: 768px) {
+
+  /* Header: menu terbuka penuh, tombol hamburger disembunyikan */
+  header {
+    flex-wrap: nowrap;
+    padding: 0.75rem 2rem;
+  }
+
+  .merek {
+    order: 1;
+  }
+
+  nav {
+    order: 2;
+    width: auto;
+    margin-left: auto;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    padding-bottom: 0;
+  }
+
+  .tombol-kepala {
+    order: 3;
+  }
+
+  .tombol-menu {
+    display: none;
+  }
+
+  /* Hero: teks di kiri, foto di kanan */
+  .hero {
+    flex-direction: row;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 4rem 0;
+  }
+  
+  .grid-menu {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+  .poin-unggul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dua-tabel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kontak-isi {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  footer {
+    grid-template-columns: 1.5fr 1fr 1.5fr;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+}
+
+@media (min-width: 1024px) {
+  .grid-menu {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+/* Hormati pengguna yang mematikan animasi di sistemnya */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  .kartu-menu:hover {
+    transform: none;
+  }
+
+  html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img, video, iframe {
+    max-width: 100%;
+}
+
+video {
+    width: 100%;
+    height: auto;
+}
+
+iframe {
+    width: 100%;
+    height: 350px;
+    border: 0;
+}
+
+
+}
